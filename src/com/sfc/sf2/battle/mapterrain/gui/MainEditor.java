@@ -16,6 +16,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
 import java.io.PrintStream;
+import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.logging.ConsoleHandler;
@@ -41,15 +42,19 @@ public class MainEditor extends javax.swing.JFrame {
      * Creates new form NewApplication
      */
     public MainEditor() {
-        initComponents();
-        initConsole(jTextArea1);
-        System.setProperty("java.util.logging.SimpleFormatter.format", 
-            "%2$s - %5$s%6$s%n");        
-        initLogger("com.sfc.sf2.graphics", Level.WARNING);        
-        File workingDirectory = new File(MainEditor.class.getProtectionDomain().getCodeSource().getLocation().getPath());
-        System.setProperty("user.dir", workingDirectory.getParent());
-        jFileChooser1.setCurrentDirectory(workingDirectory);
-        jFileChooser2.setCurrentDirectory(workingDirectory); 
+        try {
+            initComponents();
+            initConsole(jTextArea1);
+            System.setProperty("java.util.logging.SimpleFormatter.format",
+                    "%2$s - %5$s%6$s%n");
+            initLogger("com.sfc.sf2.graphics", Level.WARNING);
+            File workingDirectory = new File(MainEditor.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getParentFile();
+            System.setProperty("user.dir", workingDirectory.toString());
+            jFileChooser1.setCurrentDirectory(workingDirectory); 
+            jFileChooser2.setCurrentDirectory(workingDirectory);
+        } catch (URISyntaxException ex) {
+            Logger.getLogger(MainEditor.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     private void initLogger(String name, Level level){
@@ -112,7 +117,6 @@ public class MainEditor extends javax.swing.JFrame {
         jLabel22 = new javax.swing.JLabel();
         jTextField15 = new javax.swing.JTextField();
         jButton27 = new javax.swing.JButton();
-        jPanel6 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
@@ -185,7 +189,7 @@ public class MainEditor extends javax.swing.JFrame {
 
         jLabel20.setText("Map entries :");
 
-        jTextField19.setText("D:\\SEGADEV\\GITHUB\\SF2DISASM\\disasm\\data\\maps\\entries\\mapentries.asm");
+        jTextField19.setText("..\\maps\\entries.asm");
         jTextField19.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField19ActionPerformed(evt);
@@ -201,7 +205,7 @@ public class MainEditor extends javax.swing.JFrame {
 
         jLabel21.setText("Battle Map Coords :");
 
-        jTextField20.setText("D:\\SEGADEV\\GITHUB\\SF2DISASM\\disasm\\data\\battles\\global\\battlemapcoords.bin");
+        jTextField20.setText(".\\global\\battlemapcoords.bin");
         jTextField20.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField20ActionPerformed(evt);
@@ -215,7 +219,7 @@ public class MainEditor extends javax.swing.JFrame {
             }
         });
 
-        jTextField22.setText("D:\\SEGADEV\\GITHUB\\SF2DISASM\\disasm\\data\\graphics\\maps\\maptilesets\\maptileset");
+        jTextField22.setText("..\\graphics\\maps\\maptilesets\\maptileset");
         jTextField22.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField22ActionPerformed(evt);
@@ -240,7 +244,7 @@ public class MainEditor extends javax.swing.JFrame {
             }
         });
 
-        jTextField21.setText("D:\\SEGADEV\\GITHUB\\SF2DISASM\\disasm\\data\\graphics\\maps\\mappalettes\\mappalette");
+        jTextField21.setText("..\\graphics\\maps\\mappalettes\\mappalette");
         jTextField21.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField21ActionPerformed(evt);
@@ -256,7 +260,7 @@ public class MainEditor extends javax.swing.JFrame {
             }
         });
 
-        jTextField23.setText("D:\\SEGADEV\\GITHUB\\SF2DISASM\\disasm\\");
+        jTextField23.setText("..\\..\\");
             jTextField23.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                     jTextField23ActionPerformed(evt);
@@ -265,7 +269,7 @@ public class MainEditor extends javax.swing.JFrame {
 
             jLabel26.setText("Battle Terrain :");
 
-            jTextField24.setText("D:\\SEGADEV\\GITHUB\\SF2DISASM\\disasm\\data\\battles\\entries\\battle01\\terrain.bin");
+            jTextField24.setText(".\\entries\\battle01\\terrain.bin");
             jTextField24.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                     jTextField24ActionPerformed(evt);
@@ -389,7 +393,7 @@ public class MainEditor extends javax.swing.JFrame {
 
             jLabel22.setText("Battle Map Terrain :");
 
-            jTextField15.setText("D:\\SEGADEV\\GITHUB\\SF2DISASM\\disasm\\data\\battles\\entries\\battle01\\newterrain.bin");
+            jTextField15.setText(".\\entries\\battle01\\newterrain.bin");
             jTextField15.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                     jTextField15ActionPerformed(evt);
@@ -433,20 +437,7 @@ public class MainEditor extends javax.swing.JFrame {
                     .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jButton2)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            );
-
-            jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder("Terrain Types"));
-
-            javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-            jPanel6.setLayout(jPanel6Layout);
-            jPanel6Layout.setHorizontalGroup(
-                jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGap(0, 0, Short.MAX_VALUE)
-            );
-            jPanel6Layout.setVerticalGroup(
-                jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGap(0, 327, Short.MAX_VALUE)
+                    .addContainerGap(367, Short.MAX_VALUE))
             );
 
             javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
@@ -455,16 +446,13 @@ public class MainEditor extends javax.swing.JFrame {
                 jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 399, Short.MAX_VALUE)
                 .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 399, Short.MAX_VALUE)
-                .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             );
             jPanel9Layout.setVerticalGroup(
                 jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel9Layout.createSequentialGroup()
                     .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 442, Short.MAX_VALUE))
             );
 
             javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
@@ -488,7 +476,7 @@ public class MainEditor extends javax.swing.JFrame {
             );
             jPanel15Layout.setVerticalGroup(
                 jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jSplitPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 719, Short.MAX_VALUE)
+                .addComponent(jSplitPane2)
             );
 
             jSplitPane1.setLeftComponent(jPanel15);
@@ -550,7 +538,7 @@ public class MainEditor extends javax.swing.JFrame {
 
     private void jButton18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton18ActionPerformed
 
-        battlemapterrainManager.importDisassembly(jTextField21.getText(),jTextField22.getText(),jTextField23.getText(),jTextField19.getText(),jTextField20.getText(),(int)jSpinner1.getValue(),jTextField24.getText());
+        battlemapterrainManager.importDisassembly(jTextField23.getText(),jTextField19.getText(),jTextField20.getText(),(int)jSpinner1.getValue(),jTextField24.getText());
 
         int mapIndex = battlemapterrainManager.getCoords().getMap();
         
@@ -738,7 +726,6 @@ public class MainEditor extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
