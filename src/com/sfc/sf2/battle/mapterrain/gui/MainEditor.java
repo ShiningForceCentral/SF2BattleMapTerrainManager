@@ -205,7 +205,7 @@ public class MainEditor extends javax.swing.JFrame {
 
         jLabel21.setText("Battle Map Coords :");
 
-        jTextField20.setText(".\\global\\battlemapcoords.bin");
+        jTextField20.setText(".\\global\\battlemapcoords.asm");
         jTextField20.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField20ActionPerformed(evt);

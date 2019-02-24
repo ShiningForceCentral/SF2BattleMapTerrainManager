@@ -375,7 +375,7 @@
                                 </Component>
                                 <Component class="javax.swing.JTextField" name="jTextField20">
                                   <Properties>
-                                    <Property name="text" type="java.lang.String" value=".\u005cglobal\u005cbattlemapcoords.bin" containsInvalidXMLChars="true"/>
+                                    <Property name="text" type="java.lang.String" value=".\u005cglobal\u005cbattlemapcoords.asm" containsInvalidXMLChars="true"/>
                                   </Properties>
                                   <Events>
                                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField20ActionPerformed"/>
