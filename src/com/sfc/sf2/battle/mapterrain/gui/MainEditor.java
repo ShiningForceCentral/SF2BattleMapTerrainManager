@@ -10,6 +10,7 @@ import com.sfc.sf2.map.block.gui.BlockSlotPanel;
 import com.sfc.sf2.map.block.layout.MapBlockLayout;
 import com.sfc.sf2.battle.mapterrain.BattleMapTerrainManager;
 import com.sfc.sf2.battle.mapterrain.layout.BattleMapTerrainLayout;
+import com.sfc.sf2.map.layout.DisassemblyException;
 import com.sfc.sf2.map.layout.MapLayoutManager;
 import java.awt.GridLayout;
 import java.awt.event.KeyEvent;
@@ -546,8 +547,11 @@ public class MainEditor extends javax.swing.JFrame {
         
         final MapLayoutManager mapLayoutManager = new MapLayoutManager();
         battlemapterrainManager.setMapLayoutManager(mapLayoutManager);
-        mapLayoutManager.importDisassembly(jTextField21.getText(), jTextField22.getText(), mapEntries[mapIndex][0], mapEntries[mapIndex][1], mapEntries[mapIndex][2]);
-        
+        try {
+            mapLayoutManager.importDisassembly(jTextField21.getText(), jTextField22.getText(), mapEntries[mapIndex][0], mapEntries[mapIndex][1], mapEntries[mapIndex][2]);
+        } catch (DisassemblyException ex) {
+            Logger.getLogger(MainEditor.class.getName()).log(Level.SEVERE, null, ex);
+        }
         jPanel2.removeAll();       
         jPanel2.setLayout(new GridLayout(1,1));
         
