@@ -6,33 +6,21 @@
 package com.sfc.sf2.battle.mapterrain.layout;
 
 import com.sfc.sf2.battle.mapcoords.BattleMapCoords;
-import com.sfc.sf2.graphics.Tile;
 import com.sfc.sf2.map.block.MapBlock;
-import com.sfc.sf2.map.block.gui.BlockSlotPanel;
-import com.sfc.sf2.map.block.layout.MapBlockLayout;
 import com.sfc.sf2.battle.mapterrain.BattleMapTerrain;
 import com.sfc.sf2.map.layout.MapLayout;
+import com.sfc.sf2.palette.Palette;
 import java.awt.BasicStroke;
-import java.awt.Button;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.awt.geom.Line2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.IndexColorModel;
-import java.util.ArrayList;
-import java.util.List;
 import javax.swing.JPanel;
-import javax.swing.KeyStroke;
 
 /**
  *
@@ -88,30 +76,12 @@ public class BattleMapTerrainLayout extends JPanel implements MouseListener, Mou
         if(redraw){
             MapBlock[] blocks = layout.getBlocks();
             int imageHeight = 64*3*8;
-            Color[] palette = blocks[0].getTiles()[0].getPalette();
-            palette[0] = new Color(255, 255, 255, 0);
-            IndexColorModel icm = buildIndexColorModel(palette);
             currentImage = new BufferedImage(tilesPerRow*8, imageHeight ,  BufferedImage.TYPE_INT_ARGB);
             Graphics graphics = currentImage.getGraphics();            
             for(int y=0;y<64;y++){
                 for(int x=0;x<64;x++){
                     MapBlock block = blocks[y*64+x];
-                    BufferedImage blockImage = block.getImage();
-                    if(blockImage==null){
-                        blockImage = new BufferedImage(3*8, 3*8 , BufferedImage.TYPE_BYTE_INDEXED, icm);
-                        Graphics blockGraphics = blockImage.getGraphics();                    
-                        blockGraphics.drawImage(block.getTiles()[0].getImage(), 0*8, 0*8, null);
-                        blockGraphics.drawImage(block.getTiles()[1].getImage(), 1*8, 0*8, null);
-                        blockGraphics.drawImage(block.getTiles()[2].getImage(), 2*8, 0*8, null);
-                        blockGraphics.drawImage(block.getTiles()[3].getImage(), 0*8, 1*8, null);
-                        blockGraphics.drawImage(block.getTiles()[4].getImage(), 1*8, 1*8, null);
-                        blockGraphics.drawImage(block.getTiles()[5].getImage(), 2*8, 1*8, null);
-                        blockGraphics.drawImage(block.getTiles()[6].getImage(), 0*8, 2*8, null);
-                        blockGraphics.drawImage(block.getTiles()[7].getImage(), 1*8, 2*8, null);
-                        blockGraphics.drawImage(block.getTiles()[8].getImage(), 2*8, 2*8, null);
-                        block.setImage(blockImage);
-                    }
-                    graphics.drawImage(blockImage, x*3*8, y*3*8, null);                       
+                    graphics.drawImage(block.getIndexedColorImage(), x*3*8, y*3*8, null);
                 }
                    
             } 
@@ -174,26 +144,7 @@ public class BattleMapTerrainLayout extends JPanel implements MouseListener, Mou
             }
         }
         return terrainImage;
-    }    
-    
-    private IndexColorModel buildIndexColorModel(Color[] colors){
-        byte[] reds = new byte[16];
-        byte[] greens = new byte[16];
-        byte[] blues = new byte[16];
-        byte[] alphas = new byte[16];
-        reds[0] = (byte)0xFF;
-        greens[0] = (byte)0xFF;
-        blues[0] = (byte)0xFF;
-        alphas[0] = 0;
-        for(int i=1;i<16;i++){
-            reds[i] = (byte)colors[i].getRed();
-            greens[i] = (byte)colors[i].getGreen();
-            blues[i] = (byte)colors[i].getBlue();
-            alphas[i] = (byte)0xFF;
-        }
-        IndexColorModel icm = new IndexColorModel(4,16,reds,greens,blues,alphas);
-        return icm;
-    }    
+    }
     
     public void resize(int size){
         this.currentDisplaySize = size;
@@ -206,7 +157,7 @@ public class BattleMapTerrainLayout extends JPanel implements MouseListener, Mou
         g.drawImage(image, 0, 0, image.getWidth()*currentDisplaySize, image.getHeight()*currentDisplaySize, null);
         g.dispose();
         return newImage;
-    }    
+    }
     
     @Override
     public Dimension getPreferredSize() {
