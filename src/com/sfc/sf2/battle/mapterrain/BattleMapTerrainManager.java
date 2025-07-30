@@ -5,10 +5,10 @@
  */
 package com.sfc.sf2.battle.mapterrain;
 
+import com.sfc.sf2.map.layout.MapLayout;
 import com.sfc.sf2.battle.mapcoords.BattleMapCoords;
 import com.sfc.sf2.battle.mapcoords.BattleMapCoordsManager;
 import com.sfc.sf2.battle.mapterrain.io.DisassemblyManager;
-import com.sfc.sf2.map.layout.MapLayoutManager;
 
 /**
  *
@@ -17,17 +17,15 @@ import com.sfc.sf2.map.layout.MapLayoutManager;
 public class BattleMapTerrainManager {
 
     private final DisassemblyManager disassemblyManager = new DisassemblyManager();
+    private final BattleMapCoordsManager mapCoordsManager = new BattleMapCoordsManager();
     private BattleMapCoords coords = null;
     private BattleMapTerrain terrain;
-    private MapLayoutManager mapLayoutManager = null;
-    private BattleMapCoordsManager mapCoordsManager = null;
     private String[][] mapEntries = null;
     
-    public void importDisassembly(String basePath, String mapEntriesPath, String terrainEntriesPath, String battleMapCoordsPath, int battleIndex){
+    public void importDisassembly(String palettesPath, String tilesetsPath, String basePath, String mapEntriesPath, String terrainEntriesPath, String battleMapCoordsPath, int battleIndex){
         System.out.println("com.sfc.sf2.battlemapterrain.BattleMapTerrainManager.importDisassembly() - Importing disassembly ...");
         mapEntries = disassemblyManager.importMapEntryFile(basePath, mapEntriesPath);
-        mapCoordsManager = new BattleMapCoordsManager();
-        mapCoordsManager.importDisassembly(battleMapCoordsPath);
+        mapCoordsManager.importDisassembly(basePath, mapEntriesPath, battleMapCoordsPath);
         coords = mapCoordsManager.getCoords()[battleIndex];
         String[] terrainEntries = disassemblyManager.importTerrainEntriesFile(terrainEntriesPath);
         terrain = null;
@@ -35,14 +33,10 @@ public class BattleMapTerrainManager {
             String path = basePath + terrainEntries[battleIndex];
             terrain = disassemblyManager.importDisassembly(path);
         }
+        int mapIndex = coords.getMap();
+        mapCoordsManager.importLayoutDisassembly(coords, palettesPath, tilesetsPath);
         System.out.println("com.sfc.sf2.battlemapterrain.BattleMapTerrainManager.importDisassembly() - Disassembly imported.");
     }
-    
-    public void importDisassembly(String terrainEntriesPath){
-        System.out.println("com.sfc.sf2.battlemapterrain.BattleMapTerrainManager.importDisassembly() - Importing disassembly ...");
-        terrain = disassemblyManager.importDisassembly(terrainEntriesPath);
-        System.out.println("com.sfc.sf2.battlemapterrain.BattleMapTerrainManager.importDisassembly() - Disassembly imported.");
-    }    
     
     public void exportDisassembly(String battleMapTerrainPath){
         System.out.println("com.sfc.sf2.battlemapterrain.BattleMapTerrainManager.importDisassembly() - Exporting disassembly ...");
@@ -58,12 +52,8 @@ public class BattleMapTerrainManager {
         this.terrain = terrain;
     }
 
-    public MapLayoutManager getMapLayoutManager() {
-        return mapLayoutManager;
-    }
-
-    public void setMapLayoutManager(MapLayoutManager mapLayoutManager) {
-        this.mapLayoutManager = mapLayoutManager;
+    public MapLayout getMapLayout() {
+        return mapCoordsManager.getMapLayout();
     }
 
     public String[][] getMapEntries() {

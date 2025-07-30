@@ -5,28 +5,18 @@
  */
 package com.sfc.sf2.battle.mapterrain.gui;
 
-import com.sfc.sf2.battle.mapterrain.BattleMapTerrain;
-import com.sfc.sf2.map.block.gui.BlockSlotPanel;
 import com.sfc.sf2.map.block.layout.MapBlockLayout;
 import com.sfc.sf2.battle.mapterrain.BattleMapTerrainManager;
 import com.sfc.sf2.battle.mapterrain.layout.BattleMapTerrainLayout;
-import com.sfc.sf2.map.layout.DisassemblyException;
-import com.sfc.sf2.map.layout.MapLayoutManager;
 import java.awt.GridLayout;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.io.File;
 import java.io.PrintStream;
 import java.net.URISyntaxException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JTextArea;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 
 /**
  *
@@ -205,7 +195,7 @@ public class MainEditor extends javax.swing.JFrame {
             }
         });
 
-        jLabel21.setText("Battle Map Coords :");
+        jLabel21.setText("Battle map coords :");
 
         jTextField20.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         jTextField20.setText(".\\global\\battlemapcoords.asm");
@@ -273,7 +263,7 @@ public class MainEditor extends javax.swing.JFrame {
                 }
             });
 
-            jLabel26.setText("Battle Terrain :");
+            jLabel26.setText("Terrain entries :");
 
             jTextField24.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
             jTextField24.setText(".\\terrainentries.asm");
@@ -545,29 +535,18 @@ public class MainEditor extends javax.swing.JFrame {
 
     private void jButton18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton18ActionPerformed
 
-        battlemapterrainManager.importDisassembly(jTextField23.getText(),jTextField19.getText(),jTextField24.getText(),jTextField20.getText(),(int)jSpinner1.getValue());
-
-        int mapIndex = battlemapterrainManager.getCoords().getMap();
+        battlemapterrainManager.importDisassembly(jTextField21.getText(), jTextField22.getText(), jTextField23.getText(),jTextField19.getText(),jTextField24.getText(),jTextField20.getText(),(int)jSpinner1.getValue());
         
-        final String[][] mapEntries = battlemapterrainManager.getMapEntries();
-        
-        final MapLayoutManager mapLayoutManager = new MapLayoutManager();
-        battlemapterrainManager.setMapLayoutManager(mapLayoutManager);
-        try {
-            mapLayoutManager.importDisassembly(jTextField21.getText(), jTextField22.getText(), mapEntries[mapIndex][0], mapEntries[mapIndex][1], mapEntries[mapIndex][2]);
-        } catch (DisassemblyException ex) {
-            Logger.getLogger(MainEditor.class.getName()).log(Level.SEVERE, null, ex);
-        }
         jPanel2.removeAll();       
         jPanel2.setLayout(new GridLayout(1,1));
         
         battlemapterrainLayout = new BattleMapTerrainLayout();
-        battlemapterrainLayout.setMapLayout(mapLayoutManager.getLayout());
-        battlemapterrainLayout.setBlockset(mapLayoutManager.getBlockset());
+        battlemapterrainLayout.setMapLayout(battlemapterrainManager.getMapLayout());
+        battlemapterrainLayout.setBlockset(battlemapterrainManager.getMapLayout().getBlocks());
         battlemapterrainLayout.setCoords(battlemapterrainManager.getCoords());
         battlemapterrainLayout.setTerrain(battlemapterrainManager.getTerrain());
         battlemapterrainLayout.setDrawGrid(true);
-        battlemapterrainLayout.setDrawCoords(true);       
+        battlemapterrainLayout.setDrawCoords(true);
         
         
         jPanel2.add(battlemapterrainLayout);

@@ -9,7 +9,6 @@ import com.sfc.sf2.battle.mapcoords.BattleMapCoords;
 import com.sfc.sf2.map.block.MapBlock;
 import com.sfc.sf2.battle.mapterrain.BattleMapTerrain;
 import com.sfc.sf2.map.layout.MapLayout;
-import com.sfc.sf2.palette.Palette;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -19,7 +18,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
-import java.awt.image.IndexColorModel;
 import javax.swing.JPanel;
 
 /**
