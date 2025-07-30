@@ -5,7 +5,6 @@
  */
 package com.sfc.sf2.battle.mapterrain.gui;
 
-import com.sfc.sf2.map.block.layout.MapBlockLayout;
 import com.sfc.sf2.battle.mapterrain.BattleMapTerrainManager;
 import com.sfc.sf2.battle.mapterrain.layout.BattleMapTerrainLayout;
 import java.awt.GridLayout;
@@ -25,8 +24,7 @@ import javax.swing.JTextArea;
 public class MainEditor extends javax.swing.JFrame {
     
     BattleMapTerrainManager battlemapterrainManager = new BattleMapTerrainManager();
-    BattleMapTerrainLayout battlemapterrainLayout = null;
-    MapBlockLayout mapblockLayout = null;
+    BattleMapTerrainLayout battlemapterrainLayout = new BattleMapTerrainLayout();
     
     
     /**
@@ -43,6 +41,10 @@ public class MainEditor extends javax.swing.JFrame {
             System.setProperty("user.dir", workingDirectory.toString());
             jFileChooser1.setCurrentDirectory(workingDirectory); 
             jFileChooser2.setCurrentDirectory(workingDirectory);
+            
+            jPanel2.removeAll();
+            jPanel2.setLayout(new GridLayout(1,1));
+            jPanel2.add(battlemapterrainLayout);
         } catch (URISyntaxException ex) {
             Logger.getLogger(MainEditor.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -78,6 +80,12 @@ public class MainEditor extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jPanel2 = new javax.swing.JPanel();
+        jPanel12 = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jCheckBox1 = new javax.swing.JCheckBox();
+        jCheckBox2 = new javax.swing.JCheckBox();
+        jCheckBox3 = new javax.swing.JCheckBox();
         jPanel8 = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
@@ -150,7 +158,69 @@ public class MainEditor extends javax.swing.JFrame {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 694, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 630, Short.MAX_VALUE)
+        );
+
+        jPanel12.setBorder(javax.swing.BorderFactory.createTitledBorder("Display"));
+
+        jLabel4.setText("Map :");
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "x1", "x2", "x3", "x4" }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
+
+        jCheckBox1.setText("Exploration");
+        jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox1ActionPerformed(evt);
+            }
+        });
+
+        jCheckBox2.setText("Grid");
+        jCheckBox2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox2ActionPerformed(evt);
+            }
+        });
+
+        jCheckBox3.setSelected(true);
+        jCheckBox3.setText("Terrain");
+        jCheckBox3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox3ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
+        jPanel12.setLayout(jPanel12Layout);
+        jPanel12Layout.setHorizontalGroup(
+            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel12Layout.createSequentialGroup()
+                .addComponent(jCheckBox2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jCheckBox1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jCheckBox3)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel12Layout.setVerticalGroup(
+            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel12Layout.createSequentialGroup()
+                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4)
+                    .addComponent(jCheckBox2)
+                    .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jCheckBox1)
+                        .addComponent(jCheckBox3)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
@@ -160,10 +230,18 @@ public class MainEditor extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(4, 4, 4))
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         jSplitPane2.setRightComponent(jPanel10);
@@ -534,26 +612,8 @@ public class MainEditor extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton18ActionPerformed
-
         battlemapterrainManager.importDisassembly(jTextField21.getText(), jTextField22.getText(), jTextField23.getText(),jTextField19.getText(),jTextField24.getText(),jTextField20.getText(),(int)jSpinner1.getValue());
-        
-        jPanel2.removeAll();       
-        jPanel2.setLayout(new GridLayout(1,1));
-        
-        battlemapterrainLayout = new BattleMapTerrainLayout();
-        battlemapterrainLayout.setMapLayout(battlemapterrainManager.getMapLayout());
-        battlemapterrainLayout.setBlockset(battlemapterrainManager.getMapLayout().getBlocks());
-        battlemapterrainLayout.setCoords(battlemapterrainManager.getCoords());
-        battlemapterrainLayout.setTerrain(battlemapterrainManager.getTerrain());
-        battlemapterrainLayout.setDrawGrid(true);
-        battlemapterrainLayout.setDrawCoords(true);
-        
-        
-        jPanel2.add(battlemapterrainLayout);
-        jPanel2.setSize(battlemapterrainLayout.getWidth(), battlemapterrainLayout.getHeight());
-        
-        jPanel2.revalidate();
-        jPanel2.repaint();
+        updateInterface();
     }//GEN-LAST:event_jButton18ActionPerformed
 
     private void jTextField19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField19ActionPerformed
@@ -648,6 +708,47 @@ public class MainEditor extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton31ActionPerformed
 
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        if (jComboBox1.getSelectedIndex()>=0) {
+            battlemapterrainLayout.setCurrentDisplaySize(jComboBox1.getSelectedIndex()+1);
+            repaintLayout();
+        }
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
+        battlemapterrainLayout.setDrawExplorationFlags(jCheckBox1.isSelected());
+        repaintLayout();
+    }//GEN-LAST:event_jCheckBox1ActionPerformed
+
+    private void jCheckBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox2ActionPerformed
+        battlemapterrainLayout.setShowGrid(jCheckBox2.isSelected());
+        repaintLayout();
+    }//GEN-LAST:event_jCheckBox2ActionPerformed
+
+    private void jCheckBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox3ActionPerformed
+        battlemapterrainLayout.setDrawTerrain(jCheckBox3.isSelected());
+        repaintLayout();
+    }//GEN-LAST:event_jCheckBox3ActionPerformed
+
+    private void updateInterface() {
+        battlemapterrainLayout.setMapLayout(battlemapterrainManager.getMapLayout());
+        battlemapterrainLayout.setBlockset(battlemapterrainManager.getMapLayout().getBlocks());
+        battlemapterrainLayout.setCoords(battlemapterrainManager.getCoords());
+        battlemapterrainLayout.setTerrain(battlemapterrainManager.getTerrain());
+        battlemapterrainLayout.setCurrentDisplaySize(jComboBox1.getSelectedIndex()+1);
+        battlemapterrainLayout.setDrawExplorationFlags(jCheckBox1.isSelected());
+        battlemapterrainLayout.setShowGrid(jCheckBox2.isSelected());
+        battlemapterrainLayout.setDrawTerrain(jCheckBox3.isSelected());
+        battlemapterrainLayout.setDrawCoords(true);
+        battlemapterrainLayout.updateTerrainDisplay();
+        repaintLayout();
+    }
+    
+    private void repaintLayout() {
+        battlemapterrainLayout.revalidate();
+        battlemapterrainLayout.repaint();
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -701,6 +802,10 @@ public class MainEditor extends javax.swing.JFrame {
     private javax.swing.JButton jButton29;
     private javax.swing.JButton jButton30;
     private javax.swing.JButton jButton31;
+    private javax.swing.JCheckBox jCheckBox1;
+    private javax.swing.JCheckBox jCheckBox2;
+    private javax.swing.JCheckBox jCheckBox3;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JFileChooser jFileChooser1;
     private javax.swing.JFileChooser jFileChooser2;
     private javax.swing.JLabel jLabel1;
@@ -712,8 +817,10 @@ public class MainEditor extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
+    private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel15;
     private javax.swing.JPanel jPanel2;

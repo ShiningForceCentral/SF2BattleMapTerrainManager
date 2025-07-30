@@ -5,128 +5,45 @@
  */
 package com.sfc.sf2.battle.mapterrain.layout;
 
-import com.sfc.sf2.battle.mapcoords.BattleMapCoords;
-import com.sfc.sf2.map.block.MapBlock;
+import com.sfc.sf2.battle.mapcoords.layout.BattleMapCoordsLayout;
 import com.sfc.sf2.battle.mapterrain.BattleMapTerrain;
 import com.sfc.sf2.map.layout.MapLayout;
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
-import javax.swing.JPanel;
 
 /**
  *
  * @author wiz
  */
-public class BattleMapTerrainLayout extends JPanel implements MouseListener, MouseMotionListener {
+public class BattleMapTerrainLayout extends BattleMapCoordsLayout implements MouseListener, MouseMotionListener {
     
-    private static final int DEFAULT_TILES_PER_ROW = 64*3;
+    protected BattleMapTerrain terrain;    
+    protected boolean drawTerrain = true;
     
-    private int tilesPerRow = DEFAULT_TILES_PER_ROW;
-    private MapLayout layout;
-    private MapBlock[] blockset;
-    private int currentDisplaySize = 1;
-    
-    private BufferedImage currentImage;
-    private boolean redraw = true;
-    private int renderCounter = 0;
-    private boolean drawGrid = false;
-    private boolean drawCoords = true;;
-    private boolean drawTerrain = true;
-    
-    private BufferedImage gridImage;
-    private BufferedImage coordsImage;
     private BufferedImage terrainImage;
     
-    private BattleMapCoords coords;
-    private BattleMapTerrain terrain;
-
     public BattleMapTerrainLayout() {
+        super();
         addMouseListener(this);
         addMouseMotionListener(this);
     }
-   
     
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);   
-        g.drawImage(buildImage(), 0, 0, this);       
+    public BufferedImage buildImage(MapLayout layout, int tilesPerRow) {
+        BufferedImage image = super.buildImage(layout, tilesPerRow);
+        Graphics graphics = image.getGraphics();
+        if (drawTerrain) {
+            graphics.drawImage(drawTerrain(), 0, 0, null);
+        }
+        graphics.dispose();
+        return image;
     }
     
-    public BufferedImage buildImage(){
-        if(redraw){
-            currentImage = buildImage(this.layout,this.tilesPerRow, false);
-            setSize(currentImage.getWidth(), currentImage.getHeight());
-        }
-        return currentImage;
-    }
-    
-    public BufferedImage buildImage(MapLayout layout, int tilesPerRow, boolean pngExport){
-        renderCounter++;
-        System.out.println("Map render "+renderCounter);
-        this.layout = layout;
-        if(redraw){
-            MapBlock[] blocks = layout.getBlocks();
-            int imageHeight = 64*3*8;
-            currentImage = new BufferedImage(tilesPerRow*8, imageHeight ,  BufferedImage.TYPE_INT_ARGB);
-            Graphics graphics = currentImage.getGraphics();            
-            for(int y=0;y<64;y++){
-                for(int x=0;x<64;x++){
-                    MapBlock block = blocks[y*64+x];
-                    graphics.drawImage(block.getIndexedColorImage(), x*3*8, y*3*8, null);
-                }
-                   
-            } 
-            if(drawGrid){
-                graphics.drawImage(getGridImage(), 0, 0, null);
-            }
-            if(drawCoords){
-                graphics.drawImage(getCoordsImage(),0,0,null);
-            }   
-            if(drawTerrain){
-                graphics.drawImage(getTerrainImage(),0,0,null);
-            }            
-            redraw = false;
-            currentImage = resize(currentImage);
-        }
-                  
-        return currentImage;
-    }
-    
-    private BufferedImage getGridImage(){
-        if(gridImage==null){
-            gridImage = new BufferedImage(3*8*64, 3*8*64, BufferedImage.TYPE_INT_ARGB);
-            Graphics2D g2 = (Graphics2D) gridImage.getGraphics(); 
-            g2.setColor(Color.BLACK);
-            for(int i=0;i<64;i++){
-                g2.drawLine(3*8+i*3*8, 0, 3*8+i*3*8, 3*8*64-1);
-                g2.drawLine(0, 3*8+i*3*8, 3*8*64-1, 3*8+i*3*8);
-            }
-        }
-        return gridImage;
-    }  
-    
-    private BufferedImage getCoordsImage(){
-        if(coordsImage==null){
-            coordsImage = new BufferedImage(3*8*64, 3*8*64, BufferedImage.TYPE_INT_ARGB);
-            Graphics2D g2 = (Graphics2D) coordsImage.getGraphics();
-            g2.setStroke(new BasicStroke(3)); 
-            g2.setColor(Color.YELLOW);
-            int width = coords.getWidth();
-            int heigth = coords.getHeight();
-            g2.drawRect(coords.getX()*24 + 3, coords.getY()*24+3, width*24-6, heigth*24-6);
-        }
-        return coordsImage;
-    }    
-    
-    private BufferedImage getTerrainImage(){
-        if(terrainImage==null){
+    private BufferedImage drawTerrain(){
+        if (terrainImage == null) {
             terrainImage = new BufferedImage(3*8*64, 3*8*64, BufferedImage.TYPE_INT_ARGB);
             Graphics2D g2 = (Graphics2D) terrainImage.getGraphics();
             byte[] data = terrain.getData();
@@ -134,95 +51,19 @@ public class BattleMapTerrainLayout extends JPanel implements MouseListener, Mou
             int height = coords.getHeight();
             int x = coords.getX();
             int y = coords.getY();
-            for(int i=0;i<height;i++){
-                for(int j=0;j<width;j++){
+            for (int i=0; i<height; i++){
+                for (int j=0; j<width; j++){
                     int value = data[i*48+j];
-                    g2.drawString(String.valueOf(value), (x+j)*3*8+16, (y+i)*3*8+16);
+                    g2.drawString(String.valueOf(value), (x+j)*3*8+8, (y+i)*3*8+16);
                 }
             }
         }
         return terrainImage;
     }
-    
-    public void resize(int size){
-        this.currentDisplaySize = size;
-        currentImage = resize(currentImage);
-    }
-    
-    private BufferedImage resize(BufferedImage image){
-        BufferedImage newImage = new BufferedImage(image.getWidth()*currentDisplaySize, image.getHeight()*currentDisplaySize, BufferedImage.TYPE_INT_ARGB);
-        Graphics g = newImage.getGraphics();
-        g.drawImage(image, 0, 0, image.getWidth()*currentDisplaySize, image.getHeight()*currentDisplaySize, null);
-        g.dispose();
-        return newImage;
-    }
-    
-    @Override
-    public Dimension getPreferredSize() {
-        return new Dimension(getWidth(), getHeight());
-    }
-    
-    public int getTilesPerRow() {
-        return tilesPerRow;
-    }
 
-    public void setTilesPerRow(int tilesPerRow) {
-        this.tilesPerRow = tilesPerRow;
-    }
-
-    public int getCurrentDisplaySize() {
-        return currentDisplaySize;
-    }
-
-    public void setCurrentDisplaySize(int currentDisplaySize) {
-        this.currentDisplaySize = currentDisplaySize;
-        redraw = true;
-    }
-
-    public MapLayout getMapLayout() {
-        return layout;
-    }
-
-    public void setMapLayout(MapLayout layout) {
-        this.layout = layout;
-    }
-   
-    public MapBlock[] getBlockset() {
-        return blockset;
-    }
-
-    public void setBlockset(MapBlock[] blockset) {
-        this.blockset = blockset;
-    } 
-
-    public boolean isRedraw() {
-        return redraw;
-    }
-
-    public void setRedraw(boolean redraw) {
-        this.redraw = redraw;
-    }
-
-    public boolean isDrawGrid() {
-        return drawGrid;
-    }
-
-    public void setDrawGrid(boolean drawGrid) {
-        this.drawGrid = drawGrid;
+    public void setDrawTerrain(boolean drawTerrain) {
+        this.drawTerrain = drawTerrain;
         this.redraw = true;
-    }
-
-    public void setDrawCoords(boolean drawCoords) {
-        this.drawCoords = drawCoords;
-        this.redraw = true;
-    }
-
-    public BattleMapCoords getCoords() {
-        return coords;
-    }
-
-    public void setCoords(BattleMapCoords coords) {
-        this.coords = coords;
     }
 
     public BattleMapTerrain getTerrain() {
@@ -234,7 +75,7 @@ public class BattleMapTerrainLayout extends JPanel implements MouseListener, Mou
     }
     
     public void updateTerrainDisplay(){
-        coordsImage = null;
+        terrainImage = null;
         this.redraw = true;
     }
     
@@ -251,8 +92,8 @@ public class BattleMapTerrainLayout extends JPanel implements MouseListener, Mou
     }
     @Override
     public void mousePressed(MouseEvent e) {
-        int x = e.getX() / (currentDisplaySize * 3*8);
-        int y = e.getY() / (currentDisplaySize * 3*8);
+        int x = e.getX() / (displaySize * 3*8);
+        int y = e.getY() / (displaySize * 3*8);
         int startX = coords.getX();
         int startY = coords.getY();
         int width = coords.getWidth();
@@ -274,8 +115,6 @@ public class BattleMapTerrainLayout extends JPanel implements MouseListener, Mou
             this.revalidate();
             this.repaint();
         }
-
-        
         //System.out.println("Map press "+e.getButton()+" "+x+" - "+y);
     }
     @Override
@@ -290,6 +129,4 @@ public class BattleMapTerrainLayout extends JPanel implements MouseListener, Mou
     public void mouseMoved(MouseEvent e) {
         
     }
-        
-    
 }
