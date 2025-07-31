@@ -32,6 +32,7 @@ public class BattleMapTerrainLayout extends BattleMapCoordsLayout implements Mou
         addMouseMotionListener(this);
     }
     
+    @Override
     public BufferedImage buildImage(MapLayout layout, int tilesPerRow) {
         BufferedImage image = super.buildImage(layout, tilesPerRow);
         Graphics graphics = image.getGraphics();

@@ -7,6 +7,7 @@ package com.sfc.sf2.battle.mapterrain.gui;
 
 import com.sfc.sf2.battle.mapterrain.BattleMapTerrainManager;
 import com.sfc.sf2.battle.mapterrain.layout.BattleMapTerrainLayout;
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.io.File;
 import java.io.PrintStream;
@@ -72,6 +73,7 @@ public class MainEditor extends javax.swing.JFrame {
         jFileChooser2 = new javax.swing.JFileChooser();
         buttonGroup1 = new javax.swing.ButtonGroup();
         buttonGroup2 = new javax.swing.ButtonGroup();
+        jColorChooser1 = new javax.swing.JColorChooser();
         jPanel13 = new javax.swing.JPanel();
         jSplitPane1 = new javax.swing.JSplitPane();
         jPanel15 = new javax.swing.JPanel();
@@ -86,6 +88,8 @@ public class MainEditor extends javax.swing.JFrame {
         jCheckBox1 = new javax.swing.JCheckBox();
         jCheckBox2 = new javax.swing.JCheckBox();
         jCheckBox3 = new javax.swing.JCheckBox();
+        jPanelColorBG = new javax.swing.JPanel();
+        jLabel8 = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
@@ -194,6 +198,28 @@ public class MainEditor extends javax.swing.JFrame {
             }
         });
 
+        jPanelColorBG.setBackground(new java.awt.Color(200, 200, 200));
+        jPanelColorBG.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        jPanelColorBG.setPreferredSize(new java.awt.Dimension(24, 24));
+        jPanelColorBG.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanelColorBGMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanelColorBGLayout = new javax.swing.GroupLayout(jPanelColorBG);
+        jPanelColorBG.setLayout(jPanelColorBGLayout);
+        jPanelColorBGLayout.setHorizontalGroup(
+            jPanelColorBGLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 22, Short.MAX_VALUE)
+        );
+        jPanelColorBGLayout.setVerticalGroup(
+            jPanelColorBGLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 22, Short.MAX_VALUE)
+        );
+
+        jLabel8.setText("BG :");
+
         javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
         jPanel12.setLayout(jPanel12Layout);
         jPanel12Layout.setHorizontalGroup(
@@ -208,7 +234,11 @@ public class MainEditor extends javax.swing.JFrame {
                 .addComponent(jCheckBox1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jCheckBox3)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanelColorBG, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(157, Short.MAX_VALUE))
         );
         jPanel12Layout.setVerticalGroup(
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -219,8 +249,11 @@ public class MainEditor extends javax.swing.JFrame {
                     .addComponent(jCheckBox2)
                     .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jCheckBox1)
-                        .addComponent(jCheckBox3)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jCheckBox3))
+                    .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                        .addComponent(jPanelColorBG, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel8)))
+                .addContainerGap(8, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
@@ -730,6 +763,15 @@ public class MainEditor extends javax.swing.JFrame {
         repaintLayout();
     }//GEN-LAST:event_jCheckBox3ActionPerformed
 
+    private void jPanelColorBGMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanelColorBGMouseClicked
+        Color returnCol = jColorChooser1.showDialog(this, "Background Color", jPanelColorBG.getBackground());
+        if (returnCol != null) {
+            jPanelColorBG.setBackground(returnCol);
+            battlemapterrainLayout.setBGColor(returnCol);
+            repaintLayout();
+        }
+    }//GEN-LAST:event_jPanelColorBGMouseClicked
+
     private void updateInterface() {
         battlemapterrainLayout.setMapLayout(battlemapterrainManager.getMapLayout());
         battlemapterrainLayout.setBlockset(battlemapterrainManager.getMapLayout().getBlocks());
@@ -741,6 +783,9 @@ public class MainEditor extends javax.swing.JFrame {
         battlemapterrainLayout.setDrawTerrain(jCheckBox3.isSelected());
         battlemapterrainLayout.setDrawCoords(true);
         battlemapterrainLayout.updateTerrainDisplay();
+        
+        battlemapterrainLayout.setBGColor(jPanelColorBG.getBackground());
+            
         repaintLayout();
     }
     
@@ -805,6 +850,7 @@ public class MainEditor extends javax.swing.JFrame {
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JCheckBox jCheckBox2;
     private javax.swing.JCheckBox jCheckBox3;
+    private javax.swing.JColorChooser jColorChooser1;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JFileChooser jFileChooser1;
     private javax.swing.JFileChooser jFileChooser2;
@@ -818,6 +864,7 @@ public class MainEditor extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel12;
@@ -829,6 +876,7 @@ public class MainEditor extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
+    private javax.swing.JPanel jPanelColorBG;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSpinner jSpinner1;
