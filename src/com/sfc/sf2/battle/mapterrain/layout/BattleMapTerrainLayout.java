@@ -93,6 +93,7 @@ public class BattleMapTerrainLayout extends BattleMapCoordsLayout implements Mou
     }
     @Override
     public void mousePressed(MouseEvent e) {
+        if (coords == null) return;
         int x = e.getX() / (displaySize * 3*8);
         int y = e.getY() / (displaySize * 3*8);
         int startX = coords.getX();
