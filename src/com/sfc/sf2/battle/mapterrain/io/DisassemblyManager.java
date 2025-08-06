@@ -149,12 +149,12 @@ public class DisassemblyManager {
                         line = scan.nextLine().trim();
                     }
                     paths = new String[entriesIndices.size()];
-                    do {
+                    while(line.startsWith("BattleTerrain")) {
                         int index = Integer.parseInt(line.substring(0, line.indexOf(":")).replaceAll("[^0-9]", ""));
                         String path = line.substring(line.indexOf("incbin")+7).replaceAll("\"", "");
                         paths[index] = path;
                         line = scan.hasNext() ? scan.nextLine() : "";
-                    } while(scan.hasNext() && line.startsWith("BattleTerrain"));
+                    }
                 }
             }
             
